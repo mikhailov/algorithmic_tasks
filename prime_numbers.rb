@@ -18,7 +18,9 @@ class PrimeNumbers
   private
 
   def inner_loop(e, is_prime = true)
+    half = e / 2
     3.step(e-1, 2) do |k|
+      break if k > half
       if e % k == 0
         is_prime = false
         break
