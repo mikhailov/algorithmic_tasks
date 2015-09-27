@@ -19,7 +19,7 @@ class PrimeNumbers
     is_prime = true
     e.downto(2) do |k|
       next if k == e
-      if e % k == 0
+      if e % 2 == 0 || e % k == 0
         is_prime = false
         break
       end
