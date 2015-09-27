@@ -2,26 +2,37 @@ class PrimeNumbers
 
   def initialize(size)
     raise ArgumentError if size < 2
-
-    @array = 1.step(size,2).to_a
-    @array.shift
-    @prime = [2]
+    prepare_vars(size)
   end
 
   def process
     @array.each do |i|
+      next if @denominators.include?(i)
       @prime.push(i) if inner_loop(i)
     end
     @prime
   end
 
-
   private
 
-  def inner_loop(e, is_prime = true)
-    return false if [9,15,21,25,35,49].include?(e)
+  def prepare_vars(size)
+    @prime = [2]
+    @array = 1.step(size,2).to_a
+    @array.shift
 
-    3.step(e/9, 2) do |k|
+    @loop_end      = (size**(1/3.0)).to_i
+    @loop_end     += 1 if (@loop_end % 2 == 0)
+    @denominators  = []
+
+    3.step(@loop_end-2,2).each do |i|
+      i.step(@loop_end-2,2).each do |k|
+        @denominators << i * k
+      end
+    end
+  end
+
+  def inner_loop(e, is_prime = true)
+    3.step(e/@loop_end, 2) do |k|
       if e % k == 0
         is_prime = false
         break
