@@ -1,14 +1,15 @@
 class PrimeNumbers
 
   def initialize(size)
-    @array = (2..size).to_a
-    @prime = [2]
     raise ArgumentError if size < 2
+
+    @array = 1.step(size,2).to_a
+    @array.shift
+    @prime = [2]
   end
 
   def process
     @array.each do |i|
-      next if i.even?
       @prime.push(i) if inner_loop(i)
     end
     @prime
@@ -16,12 +17,8 @@ class PrimeNumbers
 
   private
 
-  def inner_loop(e)
-    is_prime = true
-    1.step(e,2) do |k|
-      next if k == 1
-      next if k == e
-
+  def inner_loop(e, is_prime = true)
+    3.step(e-1, 2) do |k|
       if e % k == 0
         is_prime = false
         break
