@@ -8,7 +8,7 @@ class PrimeNumbers
   def process
     @array.each do |i|
       next if @denominators.include?(i)
-      @prime.push(i) if inner_loop(i)
+      @prime.push(i) if test_of_prime(i)
     end
     @prime
   end
@@ -31,7 +31,7 @@ class PrimeNumbers
     end
   end
 
-  def inner_loop(e, is_prime = true)
+  def test_of_prime(e, is_prime = true)
     3.step(e/@loop_end, 2) do |k|
       if e % k == 0
         is_prime = false
