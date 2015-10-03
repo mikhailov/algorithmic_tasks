@@ -1,27 +1,31 @@
 class BinarySearch
   def initialize(array)
     @array = array
-    @min   = 0
-    @max   = @array.size-1
   end
 
   def process(value)
-    mid = @array[(@max+@min)/2]
+    @value = value
+    recursion(0, @array.size-1)
+  end
 
-    if value == mid
+  private
+
+  def recursion(min, max)
+    mid = @array[(max+min)/2]
+
+    if @value == mid
       true
-    elsif mid == @max || mid == @min
+    elsif mid == max || mid == min
       false
-    elsif value > mid
-      @min = mid
-      process(value)
-    elsif value < mid
-      @max = mid
-      process(value)
+    elsif @value > mid-1
+      recursion(mid, max)
+    elsif @value < mid
+      recursion(min, mid)
     else
       false
-    end
+    end    
   end
+
 end
 
 
