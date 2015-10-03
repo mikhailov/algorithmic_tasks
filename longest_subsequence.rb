@@ -6,15 +6,18 @@ class LongestSubsequence
 
   def process
     @array.each_with_index do |e,i|
-      (i...@array.size).each do |y|
-        @sequence[i] ||= []
-        if @sequence[i].size > 0 && @array[y] < @sequence[i][-1]
+      @sequence[i] = [e]
+
+      (i+1...@array.size).each do |y|
+        if @array[y] < @sequence[i][-1]
           break
         else
           @sequence[i] << @array[y]
         end
+
       end
     end
+
     @sequence.sort_by{|i| i.length}[-1]
   end
 
