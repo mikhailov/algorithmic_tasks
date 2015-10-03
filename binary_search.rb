@@ -4,26 +4,19 @@ class BinarySearch
   end
 
   def process(value)
-    @value = value
-    recursion(0, @array.size-1)
-  end
+    min, max = 0, @array.size - 1
 
-  private
-
-  def recursion(min, max)
-    mid = @array[(max+min)/2]
-
-    if @value == mid
-      true
-    elsif mid == max || mid == min
-      false
-    elsif @value > mid-1
-      recursion(mid, max)
-    elsif @value < mid
-      recursion(min, mid)
-    else
-      false
-    end    
+    while max >= min
+      mid = (max + min) / 2
+      if @array[mid] == value
+        return true
+      elsif @array[mid] < value
+        min = mid + 1
+      elsif @array[mid] > value
+        max = mid - 1
+      end
+    end
+    false
   end
 
 end
