@@ -7,13 +7,13 @@ class BinarySearch
     min, max = 0, @array.size - 1
 
     while max >= min
-      mid = (max + min) / 2
-      if @array[mid] == value
+      mid  = (max + min) / 2
+      if value > @array[mid]
+        min = mid +1
+      elsif value < @array[mid]
+        max = mid -1
+      else
         return true
-      elsif @array[mid] < value
-        min = mid + 1
-      elsif @array[mid] > value
-        max = mid - 1
       end
     end
     false
