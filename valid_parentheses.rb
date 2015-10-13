@@ -9,9 +9,9 @@ class ValidParentheses
   def process
     @array.each do |i|
       if SYMBOLS.keys.include?(i)
-        @stack.push(i)
+        @stack.push(SYMBOLS[i])
       elsif SYMBOLS.values.include?(i)
-        if @stack.last == SYMBOLS.key(i)
+        if @stack[-1] == i
           @stack.pop
         else
           return false
@@ -19,7 +19,7 @@ class ValidParentheses
       end
     end
 
-    return !@stack.empty? ? false : true
+    @stack.empty?
   end
 
 end
