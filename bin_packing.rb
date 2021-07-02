@@ -33,24 +33,23 @@ class BinPacking
   def bins_loop(i, algorithm)
     case algorithm
     when 'first-fit'
-      @bins.each do |j|
-        if j[:left] >= i
-          j[:weights] << i
-          j[:left] -= i
-          return
-        end
-      end
+      add_weights(i, @bins)
     when 'best-fit'
-      @bins.each do |j|
-        j[:would_have_left] = j[:left] - i
-      end
+      add_weights( i, rank_bins(i, @bins))
+    end
+  end
 
-      @bins.sort_by {|i| i[:would_have_left]}.each do |j|
-        if j[:left] >= i
-          j[:weights] << i
-          j[:left] -= i
-          return
-        end
+  def rank_bins(i, bins)
+    @bins.each{ |j| j[:would_have_left] = j[:left] - i }.\
+      sort_by { |i| i[:would_have_left] }
+  end
+
+  def add_weights(i, bins)
+    bins.each do |j|
+      if j[:left] >= i
+        j[:weights] << i
+        j[:left] -= i
+        return
       end
     end
   end
