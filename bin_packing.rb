@@ -1,25 +1,22 @@
 class BinPacking
   def initialize(weights, algorithm)
-    @weights = weights
+    @weights   = weights
     @algorithm = algorithm
-    @bins = [
+    @result    = []
+    @bins      = [
       { left: 20, weights: [] },
       { left: 20, weights: [] },
       { left: 20, weights: [] },
       { left: 20, weights: [] }
     ]
-    @result = []
   end
 
   def process
     validate
 
-    @weights.each do |i|
-      bins = @algorithm == 'first-fit' ? @bins : rank_bins(i, @bins)
-      add_weights(i, bins)
-    end
+    @weights.each { |i| add_weights(i) }
+    @bins.each    { |i| @result << i[:weights] }
 
-    @bins.each { |i| @result << i[:weights] }
     @result
   end
 
@@ -33,20 +30,25 @@ class BinPacking
     end
   end
 
-  def rank_bins(i, bins)
-    @bins
-      .select  { |j| j[:left] > 0 }
-      .each    { |j| j[:would_have_left] = j[:left] - i }
-      .sort_by { |i| i[:would_have_left] }
-  end
-
-  def add_weights(i, bins)
-    bins.each do |j|
+  def add_weights(i)
+    rank_bins(i).each do |j|
       if j[:left] >= i
         j[:weights] << i
         j[:left] -= i
         return
       end
+    end
+  end
+
+  def rank_bins(i)
+    if @algorithm == 'best-fit'
+      @bins
+        .select  { |j| j[:left] > 0 }
+        .each    { |j| j[:would_have_left] = j[:left] - i }
+        .sort_by { |i| i[:would_have_left] }
+    else
+      @bins
+        .select  { |j| j[:left] > 0 }
     end
   end
 end
