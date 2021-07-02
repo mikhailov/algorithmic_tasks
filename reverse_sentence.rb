@@ -5,7 +5,9 @@ class ReverseSentence
   end
 
   def process    
-    @array_reversed << @array.pop while @array.any?
+    while @array.length > 0
+      @array_reversed << @array.pop
+    end
     @array_reversed.join(" ")
   end
 

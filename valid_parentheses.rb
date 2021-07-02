@@ -7,11 +7,14 @@ class ValidParentheses
   end
 
   def process
+    open_parentheses = SYMBOLS.keys
+    closed_parentheses = SYMBOLS.values
+
     @array.each do |i|
-      if SYMBOLS.keys.include?(i)
+      if open_parentheses.include?(i)
         @stack.push(SYMBOLS[i])
-      elsif SYMBOLS.values.include?(i)
-        if @stack[-1] == i
+      elsif closed_parentheses.include?(i)
+        if i == @stack[-1]
           @stack.pop
         else
           return false
