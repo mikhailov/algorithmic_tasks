@@ -34,8 +34,10 @@ class BinPacking
   end
 
   def rank_bins(i, bins)
-    @bins.each{ |j| j[:would_have_left] = j[:left] - i }.\
-      sort_by { |i| i[:would_have_left] }
+    @bins
+      .select  { |j| j[:left] > 0 }
+      .each    { |j| j[:would_have_left] = j[:left] - i }
+      .sort_by { |i| i[:would_have_left] }
   end
 
   def add_weights(i, bins)
