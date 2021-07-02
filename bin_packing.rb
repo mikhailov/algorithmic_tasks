@@ -12,30 +12,24 @@ class BinPacking
   end
 
   def process
-    if !@weights.is_a?(Array)
-      raise ArgumentError
-    elsif !['first-fit', 'best-fit'].include?(@algorithm)
-      raise ArgumentError
-    end
+    validate
 
     @weights.each do |i|
-      bins_loop(i, @algorithm)
+      bins = @algorithm == 'first-fit' ? @bins : rank_bins(i, @bins)
+      add_weights(i, bins)
     end
 
-    @bins.each do |i|
-      @result << i[:weights]
-    end
+    @bins.each { |i| @result << i[:weights] }
     @result
   end
 
   private
 
-  def bins_loop(i, algorithm)
-    case algorithm
-    when 'first-fit'
-      add_weights(i, @bins)
-    when 'best-fit'
-      add_weights( i, rank_bins(i, @bins))
+  def validate
+    if !@weights.is_a?(Array)
+      raise ArgumentError
+    elsif !['first-fit', 'best-fit'].include?(@algorithm)
+      raise ArgumentError
     end
   end
 
